@@ -132,8 +132,14 @@ oc annotate deployment/catalog-app app.openshift.io/vcs-ref=ocp-4.10 --overwrite
 
 === 3. Verify Catalog App
 
-If you pipeline done success and to give a better look run the following commands
+Visit the {{ CONSOLE_URL }}/topology/ns/{{ USER_ID }}-inventory[Topology View^] to see the inventory app (and its database). The *Topology* view in the _Developer_ perspective of the OpenShift web console provides a visual representation of all the applications within a project, their build status, and the components and services associated with them. You'll visit this often:
 
+image::catalog-app-topology.png[crw,700]
 
+Verify that you can access the Catalog App by clicking on the route link (the arrow) to access the running catalog-app:
 
+image::route-link-catalog-app.png[crw,300]
 
+The catalog web interface should look like:
+
+image::catalog-app-web-interface.png[crw,900]
