@@ -104,7 +104,7 @@ Log out of the database
 exit;
 ----
 
-Exit to the pod sesion
+Exit from the pod sesion
 [source,sh,role="copypaste"]
 ----
 exit
