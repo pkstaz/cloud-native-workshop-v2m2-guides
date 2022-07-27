@@ -63,12 +63,17 @@ insert into catalog (itemId, name, description, price) values ('444435', 'Quarku
 insert into catalog (itemId, name, description, price) values ('444437', 'Nanobloc Universal Webcam Cover', '', 2.75);
 ----
 
-
+Log out of the database
 [source,sh,role="copypaste"]
 ----
-exit; exit
+exit;
 ----
 
+Exit to the pod sesion
+[source,sh,role="copypaste"]
+----
+exit
+----
 
 === 2. Create pipeline and deploy Catalog app
 
