@@ -103,6 +103,7 @@ image::import-from-git-2.png[import-from-git-2, 1000]
 image::import-from-git-3.png[import-from-git-3, 1000]
 
 * Check Add Pipelines
+* Target Port: 8080
 * Check Create a route to the Application
 
 You can see the pipeline run in the Pipelines menu.
