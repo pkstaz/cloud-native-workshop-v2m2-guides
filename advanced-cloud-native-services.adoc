@@ -1,17 +1,10 @@
-= Advanced Cloud-Native Services
+= Getting Ready for the labs
 :experimental:
 :imagesdir: images
-
-If you completed the *Cloud Native Workshop - Module 1*, you learned how to take an existing application to the cloud with JBoss EAP and OpenShift, and you got a glimpse into the power of OpenShift for modernizing existing applications with microservices. If you did not, or you started but didn't finish, there are scripts below you can run to catch up.
 
 In this lab, you will go deeper into how to use the OpenShift Container Platform as a developer to build and deploy applications. We’ll focus on the core features of OpenShift as it relates to developers, and you’ll learn typical workflows for a developer (develop, build, test, deploy, and repeat).
 
 === Getting Ready for the labs
-
-[WARNING]
-====
-If you’ve already completed the *Optimizing Existing Applications* module then you will simply need to import the code for this module. Skip down to the *Import Projects* section.
-====
 
 You will be using Red Hat CodeReady Workspaces, an online IDE based on https://www.eclipse.org/che/[Eclipse Che^]. *Changes to files are auto-saved every few seconds*, so you don’t need to explicitly save changes.
 
@@ -57,7 +50,7 @@ Step through the prompts, using the following value for **Repository URL**. If y
 
 [source,none,role="copypaste"]
 ----
-https://github.com/RedHat-Middleware-Workshops/cloud-native-workshop-v2m2-labs.git
+https://github.com/pkstaz/cloud-native-workshop-v2m2-labs.git
 ----
 
 image::crw-clone-repo.png[crw,900]
@@ -170,13 +163,7 @@ project in which you deployed the CoolStore monolith.
 
 ==== Verify Application
 
-Let’s take a moment and review the OpenShift resources that are created for the Monolith:
-
-* Build Config: *coolstore* build config is the configuration for building the Monolith image from the source code or WAR file.
-* Image Stream: *coolstore* image stream is the virtual view of all coolstore container images built and pushed to the OpenShift integrated registry.
-* Deployment Config: *coolstore* deployment config deploys and redeploys the Coolstore container image whenever a new coolstore container image becomes available. Similarly, the *coolstore-postgresql* does the same for the database.
-* Service: *coolstore* and *coolstore-postgresql* service is an internal load balancer which identifies a set of pods (containers) in order to proxy the connections it receives to them. Anything that depends on the service can to refer to it at a consistent address (service name or IP).
-* Route: *www* route registers the service on the built-in external load-balancer and assigns a public DNS name to it so that it can be reached from outside OpenShift cluster.
+Let’s take a moment and review the OpenShift resources that are created for the Inventory Service:
 
 [NOTE]
 ====
@@ -189,62 +176,15 @@ Run these commands to inspect the elements via CodeReady Workspaces Terminal win
 
 [source,sh,role="copypaste"]
 ----
-oc project {{ USER_ID }}-coolstore-dev && \
-oc get bc coolstore && \
-oc get is coolstore && \
-oc get dc coolstore && \
-oc get svc coolstore && \
-oc describe route www
+oc project {{ USER_ID }}-inventory && \
+oc get bc inventory && \
+oc get is inventory && \
+oc get dc inventory && \
+oc get svc inventory 
 ----
 
 You should get a valid value for each, and no errors!
 
-Visit the {{ CONSOLE_URL }}/topology/ns/{{ USER_ID }}-coolstore-dev[Topology View^] to see the coolstore app (and its database). The *Topology* view in the _Developer_ perspective of the OpenShift web console provides a visual representation of all the applications within a project, their build status, and the components and services associated with them. You'll visit this often:
+Visit the {{ CONSOLE_URL }}/topology/ns/{{ USER_ID }}-inventory[Topology View^] to see the inventory app (and its database). The *Topology* view in the _Developer_ perspective of the OpenShift web console provides a visual representation of all the applications within a project, their build status, and the components and services associated with them. You'll visit this often:
 
-image::coolstore-dev-topology.png[crw,700]
-
-Verify that you can access the monolith by clicking on the route link (the arrow) to access the running monolith:
-
-image::route_link.png[route_link, 500]
-
-The coolstore web interface should look like:
-
-image::coolstore_web.png[route_link, 800]
-
-
-=== Verify Database
-
-You can log into the running Postgres container using the following via CodeReady Workspaces Terminal window:
-
-[source,sh,role="copypaste"]
-----
-oc rsh dc/coolstore-postgresql
-----
-
-Once logged in, use the following command to execute an SQL statement to show some content from the database and then exit:
-
-[source,sh,role="copypaste"]
-----
-psql -U $POSTGRESQL_USER $POSTGRESQL_DATABASE -c 'select name,price from PRODUCT_CATALOG;' | cat; exit
-----
-
-You should see the following:
-
-----
-              name               | price 
----------------------------------+-------
- Quarkus T-shirt                 |    10
- Pronounced Kubernetes           |     9
- Knit socks                      |  4.15
- Quarkus H2Go water bottle       | 14.45
- Patagonia Refugio pack 28L      |     6
- Red Hat Impact T-shirt          |     9
- Quarkus twill cap               |    13
- Women RHEL 8 t-shirt            |    10
- Nanobloc Universal Webcam Cover |  2.75
-(9 rows)
-----
-
-This shows the content of the monolith's database.
-
-With our running project on OpenShift, in the next step we’ll explore how you as a developer can work with the running app to make changes and debug the application!
+image::inventory-dev-topology.png[crw,700]
